@@ -1,4 +1,4 @@
-﻿
+
 @{
     ViewBag.Title = "_ChatLayout";
 }
@@ -13,18 +13,18 @@
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="assest/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="~/assest/plugins/fontawesome-free/css/all.min.css">
     <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="assest/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="~/assest/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="assest/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="~/assest/dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
 
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__wobble" src="assest/dist/img/AdminLTELogo.png" alt="EduSolution" height="60" width="60">
+            <img class="animation__wobble" src="~/assest/dist/img/AdminLTELogo.png" alt="EduSolution" height="60" width="60">
         </div>
 
         <!-- Navbar -->
@@ -68,25 +68,15 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-bell"></i>
-                        <span class="badge badge-warning navbar-badge">15</span>
+                        <span class="badge badge-warning navbar-badge">!</span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="notification">
                         <span class="dropdown-item dropdown-header">15 Notifications</span>
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item">
-                            <i class="fas fa-envelope mr-2"></i> 4 new messages
-                            <span class="float-right text-muted text-sm">3 mins</span>
+                            <i class="fas fa-envelope mr-2"></i> @RenderSection("notification", required: false);
                         </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-users mr-2"></i> 8 friend requests
-                            <span class="float-right text-muted text-sm">12 hours</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-file mr-2"></i> 3 new reports
-                            <span class="float-right text-muted text-sm">2 days</span>
-                        </a>
+                        
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                     </div>
@@ -110,7 +100,7 @@
             <!-- Brand Logo -->
             <a href="index3.html" class="brand-link">
                 @*<img src="assest/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">*@
-                <img src="assest/dist/img/user2-160x160.jpg" class="brand-image img-circle elevation-3" alt="User Image">
+                <img src="~/assest/dist/img/user2-160x160.jpg" class="brand-image img-circle elevation-3" alt="User Image">
                 <span class="brand-text font-weight-light">User Dashbord</span>
             </a>
 
@@ -135,9 +125,9 @@
 
         <!--Body container-->
         <div class="content-wrapper">
-            <section class="content">
-                @RenderBody()
-            </section>
+            @RenderBody()
+            @*<section class="content">
+            </section>*@
         </div>
         <!--End Body Container-->
         <!-- Control Sidebar -->
@@ -152,27 +142,27 @@
     <!-- ./wrapper -->
     <!-- REQUIRED SCRIPTS -->
     <!-- jQuery -->
-    <script src="assest/plugins/jquery/jquery.min.js"></script>
+    <script src="~/assest/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap -->
-    <script src="assest/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assest/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- overlayScrollbars -->
-    <script src="assest/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <script src="~/assest/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="assest/dist/js/adminlte.js"></script>
+    <script src="~/assest/dist/js/adminlte.js"></script>
 
     <!-- PAGE PLUGINS -->
     <!-- jQuery Mapael -->
-    <script src="assest/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
-    <script src="assest/plugins/raphael/raphael.min.js"></script>
-    <script src="assest/plugins/jquery-mapael/jquery.mapael.min.js"></script>
-    <script src="assest/plugins/jquery-mapael/maps/usa_states.min.js"></script>
+    <script src="~/assest/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+    <script src="~/assest/plugins/raphael/raphael.min.js"></script>
+    <script src="~/assest/plugins/jquery-mapael/jquery.mapael.min.js"></script>
+    <script src="~/assest/plugins/jquery-mapael/maps/usa_states.min.js"></script>
     <!-- ChartJS -->
-    <script src="assest/plugins/chart.js/Chart.min.js"></script>
+    <script src="~/assest/plugins/chart.js/Chart.min.js"></script>
 
     <!-- AdminLTE -->
-    <script src="assest/dist/js/demo.js"></script>
+    <script src="~/assest/dist/js/demo.js"></script>
     <!-- AdminLTE dashboard  -->
-    <script src="assest/dist/js/pages/dashboard2.js"></script>
+    <script src="~/assest/dist/js/pages/dashboard2.js"></script>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
