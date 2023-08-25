@@ -1,71 +1,46 @@
-﻿
+
 @{
     ViewBag.Title = "Chat";
     Layout = "~/Views/Shared/_ChatLayout.cshtml";
 }
 
-@*<div class="container">
-        <input type="text" id="message" required/>
-        <input type="button" id="sendmessage" value="Send" />
-        <input type="hidden" id="displayname" />
-        <ul id="discussion">
-        </ul>
-    </div>*@
-
-<div class="col-md-12">
-    <!-- DIRECT CHAT DANGER -->
-    <div class="card card-danger direct-chat direct-chat-danger shadow-lg">
-        <div class="card-header">
-            <h3 class="card-title"><i class='fa-solid fa-circle' style='color:#59ff00'></i>Online</h3>
-
-            <div class="card-tools">
-                <span title="3 New Messages" class="badge">3</span>
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
-                    <i class="fas fa-comments"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        </div>
-        <!-- /.card-header -->
-        <div class="card-body">
-            <!-- Conversations are loaded here -->
-            <div class="direct-chat-messages">
-
-                <!-- Message to the right -->
-                <div class="direct-chat-msg right">
-
-                    @*<div class="container">
-                            <ul id="discussion">
-                            </ul>
-                        </div>*@
-                    <div class="direct-chat-infos clearfix">
-                        <span class="direct-chat-name float-right" id="displayname"></span>
-                        <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
-                    </div>
-                    <!-- /.direct-chat-infos -->
-                    <img class="direct-chat-img" src="~/assest/dist/img/user3-128x128.jpg" alt="Message User Image">
-                    <!-- /.direct-chat-img -->
-                    <div class="direct-chat-text">
-                        <p id="discussion"></p>
-                    </div>
-                    <!-- /.direct-chat-text -->
-
-                </div>
-                <!-- /.direct-chat-msg -->
-
-
-            </div>
-            <!--/.direct-chat-messages-->
-
-        </div>
-
+<head>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/assest/plugins/fontawesome-free/css/all.min.css">
+</head>
+@section notification {
+    <p id="notification"></p>
+}
+<style>
+    .direct-chat-messages-new {
+        -webkit-transform: translate(0,0);
+        transform: translate(0,0);
+        /* height: 250px; */
+        overflow: auto;
+        padding: 10px;
+    }
+</style>
+<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+    <div class="container-fluid">
+        <img class="navbar-img" src="~/assest/dist/img/user2-160x160.jpg" alt="Message User Image">
+        <a class="navbar-brand card-title" id="displayname"></a>
     </div>
-    <!--/.direct-chat -->
+</nav>
+
+<div class="col-md-12 card-success direct-chat direct-chat-primary w-100">
+
+    <div class="direct-chat-messages-new" id="discussion">
+        @*<div class="direct-chat-msg right" >
+                <div class="direct-chat-infos clearfix">
+                    <span class="direct-chat-name float-right" id="displayname"></span>
+                    <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
+                </div>
+                <img class="direct-chat-img" src="~/assest/dist/img/user3-128x128.jpg" alt="Message User Image">
+                <div class="direct-chat-text">
+                    <p id="discussion"></p>
+                </div>
+            </div>*@
+    </div>
 </div>
 
 <footer class="main-footer">
@@ -73,12 +48,11 @@
         <div class="input-group">
             <input type="text" name="message" id="message" placeholder="Type Message ..." class="form-control">
             <span class="input-group-append">
-                <input type="button" id="sendmessage" class="btn btn-danger" value="Send">
+                <input type="button" id="sendmessage" class="btn btn-primary" value="Send">
             </span>
         </div>
     </form>
 </footer>
-
 
 
 @section scripts {
@@ -106,8 +80,25 @@
             // Create a function that the hub can call back to display messages.
             chat.client.addNewMessageToPage = function (name, message) {
                 // Add the message to the page.
-                $('#discussion').append('<p><strong>' + htmlEncode(name)
-                    + '</strong>' + htmlEncode(message) + '</p>');
+                if (username == name) {
+
+                    $('#discussion').append(
+                        '<div class="direct-chat-msg right" ><div class="direct-chat-infos clearfix"><span class="direct-chat-name float-right">' + htmlEncode(name) + '</span><span class="direct-chat-timestamp float-left">' + getDateTime() + '</span></div>' +
+                        '<img class="direct-chat-img" src="/assest/dist/img/avatar4.png" alt="Message User Image"><div class="direct-chat-text"><p><p><strong>' + htmlEncode(message) + '</strong></p></p></div></div>'
+                    );
+
+                }
+                else {
+                    $("#notification").text("New message from " + name);
+                    $('#discussion').append(
+                        '<div class="direct-chat-msg left" ><div class="direct-chat-infos clearfix"><span class="direct-chat-name float-left">' + htmlEncode(name) + '</span><span class="direct-chat-timestamp float-right">' + getDateTime() + '</span></div>' +
+                        '<img class="direct-chat-img" src="/assest/dist/img/avatar3.png" alt="Message User Image"><div class="direct-chat-text"><p><p><strong>' + htmlEncode(message) + '</strong></p></p></div></div>'
+                    );
+
+                }
+
+                //'<p><strong>' + htmlEncode(name)
+                //+ '</strong>' + htmlEncode(message) + '</p>');
             };
             // Get the user name and store it to prepend to messages.
 
@@ -116,8 +107,9 @@
             // Start the connection.
             $.connection.hub.start().done(function () {
                 $('#sendmessage').click(function () {
+                    var id = 1;
                     // Call the Send method on the hub.
-                    chat.server.send($('#displayname').val(), $('#message').val());
+                    chat.server.send(username, $('#message').val());
                     // Clear text box and reset focus for next comment.
                     $('#message').val('').focus();
                 });
@@ -128,6 +120,15 @@
             var encodedValue = $('<div />').text(value).html();
             return encodedValue;
         }
+
+        function getDateTime() {
+            var today = new Date();
+            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            return date + ' ' + time;
+        }
+
+
     </script>
 }
 
